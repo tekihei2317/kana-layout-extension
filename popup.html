@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 250px;
+        padding: 20px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        color: #666;
+      }
+
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 15px;
+      }
+
+      .toggle {
+        position: relative;
+        width: 50px;
+        height: 24px;
+        background-color: #ccc;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .toggle.active {
+        background-color: #4caf50;
+      }
+
+      .toggle-slider {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        transition: transform 0.3s;
+      }
+
+      .toggle.active .toggle-slider {
+        transform: translateX(26px);
+      }
+
+      .mapping {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+
+      .mapping-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .mapping-item {
+        margin: 2px 0;
+        color: #666;
+      }
+
+      .status {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+        padding: 5px;
+        border-radius: 3px;
+      }
+
+      .status.enabled {
+        background-color: #e8f5e8;
+        color: #2e7d2e;
+      }
+
+      .status.disabled {
+        background-color: #f5e8e8;
+        color: #7d2e2e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="title">かな配列エミュレーター</div>
+      <div class="subtitle">月配列用</div>
+    </div>
+
+    <div class="toggle-container">
+      <span>機能の有効/無効</span>
+      <div class="toggle" id="toggle">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+
+    <div class="mapping">
+      <div class="mapping-title">キーマッピング</div>
+      <div class="mapping-item">[ → a (ち → は)</div>
+      <div class="mapping-item">f → s (と → し)</div>
+      <div class="mapping-item">e → d (し → て)</div>
+      <div class="mapping-item">a → f (は → と)</div>
+    </div>
+
+    <div class="status" id="status">読み込み中...</div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
