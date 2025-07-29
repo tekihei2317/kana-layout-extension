@@ -18,7 +18,6 @@ function loadSettings() {
   chrome.storage.sync.get(
     ["enabled", "keyboardLayout", "kanaLayout"],
     (result) => {
-      console.log(result);
       const settings: Settings = {
         enabled: result.enabled ?? defaultSettings.enabled,
         keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
@@ -46,6 +45,11 @@ enabledToggle.addEventListener("change", () => {
 keyboardJisRadio.addEventListener("change", () => {
   if (keyboardJisRadio.checked) {
     saveSetting("keyboardLayout", "JIS");
+  }
+});
+
+keyboardUsRadio.addEventListener("change", () => {
+  if (keyboardUsRadio.checked) {
     saveSetting("keyboardLayout", "US");
   }
 });

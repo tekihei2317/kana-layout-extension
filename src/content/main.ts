@@ -32,8 +32,6 @@ function handleKeyDown(event: KeyboardEvent) {
     app.state = result.state;
 
     if (result.event !== undefined) {
-      console.log(result.event);
-
       event.target?.dispatchEvent(
         new KeyboardEvent("keydown", {
           key: result.event.key,
@@ -109,17 +107,14 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     if (!app.settings) return;
     if (changes.enabled) {
       app.settings.enabled = changes.enabled.newValue;
-      console.log("Extension enabled changed:", app.settings.enabled);
     }
 
     if (changes.keyboardLayout) {
       app.settings.keyboardLayout = changes.keyboardLayout.newValue;
-      console.log("Keyboard layout changed:", app.settings.keyboardLayout);
     }
 
     if (changes.kanaLayout) {
       app.settings.kanaLayout = changes.kanaLayout.newValue;
-      console.log("Kana layout changed:", app.settings.kanaLayout);
     }
 
     app = syncAppWithSettings(app);
