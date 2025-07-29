@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "タイピングゲームでかな入力配列を使うためのChrome拡張機能です",
   "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +20,7 @@
   "homepage": "https://github.com/tekihei2317/kana-layout-extension#readme",
   "devDependencies": {
     "@types/chrome": "^0.1.1",
+    "prettier": "^3.6.2",
     "typescript": "^5.8.3"
   }
 }

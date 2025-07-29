@@ -28,7 +28,7 @@ document.addEventListener("keydown", handleKeyDown, true);
 コンソールに以下を書いて、どういう挙動になっているか確認する。
 
 ```js
-document.addEventListener("keydown", (event) => console.log(event.key))
+document.addEventListener("keydown", (event) => console.log(event.key));
 ```
 
 asdfを順番に押すと次のようになった。
@@ -70,7 +70,6 @@ VM410:1 s
 ## e-typingでのキー入力の判定について
 
 e-typingのプレイ画面のポップアップウィンドウにフォーカスしてキーを押すと、コンソールに拡張機能のログが出なくなる。これはなぜだろう。
-
 
 ![alt text](images/image.png)
 

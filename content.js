@@ -171,7 +171,7 @@ function handleKeyDown(event) {
   if (!event.isTrusted) return;
 
   console.log(
-    `Key: ${event.key}, isTrusted: ${event.isTrusted}, keyCode: ${event.keyCode}, which: ${event.which}`
+    `Key: ${event.key}, isTrusted: ${event.isTrusted}, keyCode: ${event.keyCode}, which: ${event.which}`,
   );
 
   if (Object.keys(keymap).includes(event.key)) {
@@ -189,7 +189,7 @@ function handleKeyDown(event) {
           keyCode: result.event.keyCode,
           bubbles: true,
           shiftKey: result.event.shift,
-        })
+        }),
       );
     }
   }
