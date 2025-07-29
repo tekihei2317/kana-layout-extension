@@ -1,14 +1,16 @@
 # 各タイピングサイトでの対応について
 
-## e-typing
+## キー入力イベントについて
 
-`event.keyCode`で判定しているので、`keyCode`を書けばOK。
+### e-typing
 
-## タイピング速度検定
+`event.keyCode`で判定しているので、`keyCode`を書けばOKです。
 
-`event.key`で判定知るので、`key`を書けばOK。
+### タイピング速度検定
 
-## YTyping
+`event.key`で判定しているので、`key`を書けばOKです。
+
+### YTyping
 
 からくりピエロで調査。「まちあわせはにじかんまえで」
 
@@ -26,7 +28,7 @@
 
 イベントのデータが不足していた場合のフォールバックの条件分岐等が起こってたかもしれないので、改めてどれが必要か調べたほうがよさそう。
 
-## Typing Tube
+### Typing Tube
 
 これまでのサイトと違いイベントリスナがwindowに設定されているようだったので、同じくwindowにリスナを設定して上書きする必要があった。
 
@@ -36,3 +38,15 @@ documentに設定した場合は、windowの素のイベントも実行される
 // document→window
 window.addEventListener("keydown", handleKeyDown, true);
 ```
+
+## e-typingのiframe対応
+
+e-typingは他のサイトと違ってiframeでタイピング練習部分を埋め込んでいるので、そのままの方法で拡張機能を実行することができません。
+
+Content Scriptのall_framesを有効にし、e-typingのプレイ画面のiframeかどうかをURLで判定して有効化するようにしました。
+
+[Chrome拡張でiframe内のDOMの変化を監視する - もやし丸の備忘録](https://dev-moyashi.hatenablog.com/entry/2020/04/05/202256)
+
+e-typing-plusのスクリプトを挿入する方法は、ビルド設定の関係で実装が大変になりそうだったので諦めました。
+
+[etyping-plus/src/js/content.js at develop · nohtaray/etyping-plus](https://github.com/nohtaray/etyping-plus/blob/develop/src/js/content.js)

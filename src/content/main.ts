@@ -1,6 +1,4 @@
-import { tsukiLayout } from "~/layout-tsuki-2-263";
-
-console.log("Kana Layout Extension loaded");
+import { tsukiLayout } from "../layout-tsuki-2-263";
 
 type State = {
   shift: "none" | "left" | "right";
@@ -37,6 +35,10 @@ function handleKeyDown(event: KeyboardEvent) {
   }
 }
 
-if (isExtensionEnabled) {
+// e-typingのプレイ画面のiframeかどうか判定する
+const isEtypingIframe = window.location.href.includes("/jsa_kana/typing.asp");
+
+// メインページまたはe-typing iframeでのみ有効化
+if (isExtensionEnabled && (window.parent === window || isEtypingIframe)) {
   window.addEventListener("keydown", handleKeyDown, true);
 }

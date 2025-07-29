@@ -19,6 +19,7 @@ export default defineManifest({
     {
       js: ["src/content/main.ts"],
       matches: ["https://*/*"],
+      all_frames: true,
     },
   ],
 });
