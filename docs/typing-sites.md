@@ -25,3 +25,14 @@
 "つ"の`event.key`が`Z`じゃなくて`z`でも入力できた理由は分からない。
 
 イベントのデータが不足していた場合のフォールバックの条件分岐等が起こってたかもしれないので、改めてどれが必要か調べたほうがよさそう。
+
+## Typing Tube
+
+これまでのサイトと違いイベントリスナがwindowに設定されているようだったので、同じくwindowにリスナを設定して上書きする必要があった。
+
+documentに設定した場合は、windowの素のイベントも実行されるためキーを打鍵するごとにミスが増えていった。
+
+```js
+// document→window
+window.addEventListener("keydown", handleKeyDown, true);
+```

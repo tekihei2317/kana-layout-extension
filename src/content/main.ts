@@ -211,5 +211,5 @@ function handleKeyDown(event: KeyboardEvent) {
 }
 
 if (isExtensionEnabled) {
-  document.addEventListener("keydown", handleKeyDown, true);
+  window.addEventListener("keydown", handleKeyDown, true);
 }
