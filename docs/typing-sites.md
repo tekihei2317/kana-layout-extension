@@ -16,56 +16,12 @@
 
 `event.key`と`event.keyCode`の両方を設定すると"まち"までは打てた。
 
-まずはcodeを追加して試してみましょう。
+`event.code`を追加してみると、ほとんどの文字は打てるようになった。
 
-Digit1
-Digit2
-Digit3
-Digit4
-Digit5
-Digit6
-Digit7
-Digit8
-Digit9
-Digit0
-Minus
-Equal
-IntlYen
+"ゅ"と"ょ"が打てなかった。"っ"は打てた。違いはなんだろう？
 
-KeyQ
-KeyW
-KeyE
-KeyR
-KeyT
-KeyY
-KeyU
-KeyI
-KeyO
-KeyP
-BracketLeft
-BracketRight
+`event.key`の値を小文字にしていたけど、これは実際に入力した文字を表すのでシフトの場合に変更する必要があった。"ょ"はJISかなでShift + 9なので、`event.key`は`9`じゃなくて`)`にする。他のシフトが必要なキーについても同様。
 
-KeyA
-KeyS
-KeyD
-KeyF
-KeyG
-KeyH
-KeyJ
-KeyK
-KeyL
-Semicolon
-Quote
-Backslash
+"つ"の`event.key`が`Z`じゃなくて`z`でも入力できた理由は分からない。
 
-KeyZ
-KeyX
-KeyC
-KeyV
-KeyB
-KeyN
-KeyM
-Comma
-Period
-Slash
-IntlRo
+イベントのデータが不足していた場合のフォールバックの条件分岐等が起こってたかもしれないので、改めてどれが必要か調べたほうがよさそう。
