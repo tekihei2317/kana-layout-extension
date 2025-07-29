@@ -62,7 +62,7 @@ const kanaToJisKana = {
   を: { keyCode: 48, shift: true }, // 0 + shift
   ほ: { keyCode: 189, shift: false }, // -
   へ: { keyCode: 187, shift: false }, // =
-  "-": { keyCode: 0, shift: false }, // ¥ TODO:
+  "-": { keyCode: 0, shift: false }, // ¥
 
   // Q行
   た: { keyCode: 81, shift: false }, // Q
@@ -113,12 +113,27 @@ const kanaToJisKana = {
   ろ: { keyCode: 189, shift: false }, // _
 };
 
-/**
- * 'none' | 'left' | 'right'
- */
-let shiftState = "none";
+type ShiftState = "none" | "left" | "right";
 
-function toTsukiEvent({ shiftState, key }) {
+type TypingEvent = {
+  keyCode: number;
+  shift: boolean;
+};
+
+type ValidKey = keyof typeof keymap;
+
+type ValidKana = keyof typeof kanaToJisKana;
+
+let shiftState: ShiftState = "none";
+let isExtensionEnabled: boolean = false;
+
+function toTsukiEvent({
+  shiftState,
+  key,
+}: {
+  shiftState: ShiftState;
+  key: ValidKey;
+}): { shiftState: ShiftState; event: TypingEvent | undefined } {
   if (shiftState === "none") {
     if (key === "d") {
       return { shiftState: "left", event: undefined };
@@ -126,7 +141,7 @@ function toTsukiEvent({ shiftState, key }) {
       return { shiftState: "right", event: undefined };
     } else {
       const keymapEntry = keymap[key];
-      const event = kanaToJisKana[keymapEntry.default];
+      const event = kanaToJisKana[keymapEntry.default as ValidKana];
 
       return { shiftState: "none", event };
     }
@@ -139,11 +154,11 @@ function toTsukiEvent({ shiftState, key }) {
 
       if (entry.side === "left") {
         // 同手シフトは通常面
-        const event = kanaToJisKana[entry.default];
+        const event = kanaToJisKana[entry.default as ValidKana];
         return { shiftState: "none", event };
       } else {
         // 異手シフトはシフト面
-        const event = kanaToJisKana[entry.shift];
+        const event = kanaToJisKana[entry.shift as ValidKana];
         return { shiftState: "none", event };
       }
     }
@@ -156,25 +171,22 @@ function toTsukiEvent({ shiftState, key }) {
 
       if (entry.side === "right") {
         // 同手シフトは通常面
-        const event = kanaToJisKana[entry.default];
+        const event = kanaToJisKana[entry.default as ValidKana];
         return { shiftState: "none", event };
       } else {
         // 異手シフトはシフト面
-        const event = kanaToJisKana[entry.shift];
+        const event = kanaToJisKana[entry.shift as ValidKana];
         return { shiftState: "none", event };
       }
     }
   }
 }
 
-function handleKeyDown(event) {
-  console.log(
-    `Key: ${event.key}, isTrusted: ${event.isTrusted}, keyCode: ${event.keyCode}, which: ${event.which}`
-  );
+function handleKeyDown(event: KeyboardEvent) {
+  if (!event.isTrusted) return;
 
   if (Object.keys(keymap).includes(event.key)) {
-    const result = toTsukiEvent({ shiftState, key: event.key });
-    console.log(result);
+    const result = toTsukiEvent({ shiftState, key: event.key as ValidKey });
 
     event.preventDefault();
     event.stopPropagation();
@@ -182,7 +194,7 @@ function handleKeyDown(event) {
 
     shiftState = result.shiftState;
     if (result.event !== undefined) {
-      event.target.dispatchEvent(
+      event.target?.dispatchEvent(
         new KeyboardEvent("keydown", {
           keyCode: result.event.keyCode,
           bubbles: true,
@@ -193,5 +205,6 @@ function handleKeyDown(event) {
   }
 }
 
-// キャプチャフェーズで最優先でキーイベントを処理
-document.addEventListener("keydown", handleKeyDown, true);
+if (isExtensionEnabled) {
+  document.addEventListener("keydown", handleKeyDown, true);
+}
