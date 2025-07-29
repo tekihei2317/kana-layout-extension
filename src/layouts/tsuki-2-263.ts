@@ -1,5 +1,5 @@
-import { InputProcessor } from "./input-processor";
-import { convertKanaToEvent } from "./typing-event";
+import { InputProcessor } from "../input-processor";
+import { convertKanaToEvent } from "../typing-event";
 
 const keymap = {
   q: { default: "そ", shift: "ぁ", side: "left" },
