@@ -5,6 +5,7 @@ export default defineManifest({
   manifest_version: 3,
   name: pkg.name,
   version: pkg.version,
+  description: "タイピングゲーム用のかな入力配列エミュレーター",
   icons: {
     48: "public/logo.png",
   },
