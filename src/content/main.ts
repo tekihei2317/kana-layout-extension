@@ -42,80 +42,81 @@ const keymap = {
 
 const kanaToJisKana = {
   // 数字行
-  ぬ: { keyCode: 49, shift: false }, // 1
-  ふ: { keyCode: 50, shift: false }, // 2
-  あ: { keyCode: 51, shift: false }, // 3
-  ぁ: { keyCode: 51, shift: true }, // 3 + shift
-  う: { keyCode: 52, shift: false }, // 4
-  ぅ: { keyCode: 52, shift: true }, // 4 + shift
-  え: { keyCode: 53, shift: false }, // 5
-  ぇ: { keyCode: 53, shift: true }, // 5 + shift
-  お: { keyCode: 54, shift: false }, // 6
-  ぉ: { keyCode: 54, shift: true }, // 6 + shift
-  や: { keyCode: 55, shift: false }, // 7
-  ゃ: { keyCode: 55, shift: true }, // 7 + shift
-  ゆ: { keyCode: 56, shift: false }, // 8
-  ゅ: { keyCode: 56, shift: true }, // 8 + shift
-  よ: { keyCode: 57, shift: false }, // 9
-  ょ: { keyCode: 57, shift: true }, // 9 + shift
-  わ: { keyCode: 48, shift: false }, // 0
-  を: { keyCode: 48, shift: true }, // 0 + shift
-  ほ: { keyCode: 189, shift: false }, // -
-  へ: { keyCode: 187, shift: false }, // =
-  "-": { keyCode: 0, shift: false }, // ¥
+  ぬ: { key: "1", keyCode: 49, shift: false },
+  ふ: { key: "2", keyCode: 50, shift: false },
+  あ: { key: "3", keyCode: 51, shift: false },
+  ぁ: { key: "3", keyCode: 51, shift: true },
+  う: { key: "4", keyCode: 52, shift: false },
+  ぅ: { key: "4", keyCode: 52, shift: true },
+  え: { key: "5", keyCode: 53, shift: false },
+  ぇ: { key: "5", keyCode: 53, shift: true },
+  お: { key: "6", keyCode: 54, shift: false },
+  ぉ: { key: "6", keyCode: 54, shift: true },
+  や: { key: "7", keyCode: 55, shift: false },
+  ゃ: { key: "7", keyCode: 55, shift: true },
+  ゆ: { key: "8", keyCode: 56, shift: false },
+  ゅ: { key: "8", keyCode: 56, shift: true },
+  よ: { key: "9", keyCode: 57, shift: false },
+  ょ: { key: "9", keyCode: 57, shift: true },
+  わ: { key: "0", keyCode: 48, shift: false },
+  を: { key: "0", keyCode: 48, shift: true },
+  ほ: { key: "-", keyCode: 189, shift: false },
+  へ: { key: "^", keyCode: 187, shift: false },
+  "-": { key: "¥", keyCode: 0, shift: false },
 
   // Q行
-  た: { keyCode: 81, shift: false }, // Q
-  て: { keyCode: 87, shift: false }, // W
-  い: { keyCode: 69, shift: false }, // E
-  ぃ: { keyCode: 69, shift: true }, // E + shift
-  す: { keyCode: 82, shift: false }, // R
-  か: { keyCode: 84, shift: false }, // T
-  ん: { keyCode: 89, shift: false }, // Y
-  な: { keyCode: 85, shift: false }, // U
-  に: { keyCode: 73, shift: false }, // I
-  ら: { keyCode: 79, shift: false }, // O
-  せ: { keyCode: 80, shift: false }, // P
-  "゛": { keyCode: 219, shift: false }, // [
-  "゜": { keyCode: 219, shift: false }, // ]
-  "[": { keyCode: 219, shift: true }, // [ + shift
+  た: { key: "q", keyCode: 81, shift: false },
+  て: { key: "w", keyCode: 87, shift: false },
+  い: { key: "e", keyCode: 69, shift: false },
+  ぃ: { key: "e", keyCode: 69, shift: true },
+  す: { key: "r", keyCode: 82, shift: false },
+  か: { key: "t", keyCode: 84, shift: false },
+  ん: { key: "y", keyCode: 89, shift: false },
+  な: { key: "u", keyCode: 85, shift: false },
+  に: { key: "i", keyCode: 73, shift: false },
+  ら: { key: "o", keyCode: 79, shift: false },
+  せ: { key: "p", keyCode: 80, shift: false },
+  "゛": { key: "@", keyCode: 219, shift: false },
+  "゜": { key: "[", keyCode: 219, shift: false },
+  "[": { key: "[", keyCode: 219, shift: true },
 
   // A行
-  ち: { keyCode: 65, shift: false }, // A
-  と: { keyCode: 83, shift: false }, // S
-  し: { keyCode: 68, shift: false }, // D
-  は: { keyCode: 70, shift: false }, // F
-  き: { keyCode: 71, shift: false }, // G
-  く: { keyCode: 72, shift: false }, // H
-  ま: { keyCode: 74, shift: false }, // J
-  の: { keyCode: 75, shift: false }, // K
-  り: { keyCode: 76, shift: false }, // L
-  れ: { keyCode: 186, shift: false }, // ;
-  け: { keyCode: 186, shift: false }, // :
-  む: { keyCode: 221, shift: false }, // ]
-  "]": { keyCode: 221, shift: true }, // ] + shift
+  ち: { key: "a", keyCode: 65, shift: false },
+  と: { key: "s", keyCode: 83, shift: false },
+  し: { key: "d", keyCode: 68, shift: false },
+  は: { key: "f", keyCode: 70, shift: false },
+  き: { key: "g", keyCode: 71, shift: false },
+  く: { key: "h", keyCode: 72, shift: false },
+  ま: { key: "j", keyCode: 74, shift: false },
+  の: { key: "k", keyCode: 75, shift: false },
+  り: { key: "l", keyCode: 76, shift: false },
+  れ: { key: ";", keyCode: 186, shift: false },
+  け: { key: ":", keyCode: 186, shift: false },
+  む: { key: "]", keyCode: 221, shift: false },
+  "]": { key: "]", keyCode: 221, shift: true },
 
   // Z行
-  つ: { keyCode: 90, shift: false }, // Z
-  っ: { keyCode: 90, shift: true }, // Z + shift
-  さ: { keyCode: 88, shift: false }, // X
-  そ: { keyCode: 67, shift: false }, // C
-  ひ: { keyCode: 86, shift: false }, // V
-  こ: { keyCode: 66, shift: false }, // B
-  み: { keyCode: 78, shift: false }, // N
-  も: { keyCode: 77, shift: false }, // M
-  ね: { keyCode: 188, shift: false }, // ,
-  ",": { keyCode: 188, shift: true }, // , + shift
-  る: { keyCode: 190, shift: false }, // .
-  ".": { keyCode: 190, shift: true }, // . + shift
-  め: { keyCode: 191, shift: false }, // /
-  "・": { keyCode: 191, shift: true }, // / + shift
-  ろ: { keyCode: 189, shift: false }, // _
-};
+  つ: { key: "z", keyCode: 90, shift: false },
+  っ: { key: "z", keyCode: 90, shift: true },
+  さ: { key: "x", keyCode: 88, shift: false },
+  そ: { key: "c", keyCode: 67, shift: false },
+  ひ: { key: "v", keyCode: 86, shift: false },
+  こ: { key: "b", keyCode: 66, shift: false },
+  み: { key: "n", keyCode: 78, shift: false },
+  も: { key: "m", keyCode: 77, shift: false },
+  ね: { key: ",", keyCode: 188, shift: false },
+  ",": { key: ",", keyCode: 188, shift: true },
+  る: { key: ".", keyCode: 190, shift: false },
+  ".": { key: ".", keyCode: 190, shift: true },
+  め: { key: "/", keyCode: 191, shift: false },
+  "・": { key: "/", keyCode: 191, shift: true },
+  ろ: { key: "_", keyCode: 189, shift: false },
+} satisfies Record<string, TypingEvent>;
 
 type ShiftState = "none" | "left" | "right";
 
 type TypingEvent = {
+  key: string;
   keyCode: number;
   shift: boolean;
 };
@@ -125,7 +126,7 @@ type ValidKey = keyof typeof keymap;
 type ValidKana = keyof typeof kanaToJisKana;
 
 let shiftState: ShiftState = "none";
-let isExtensionEnabled: boolean = false;
+let isExtensionEnabled: boolean = true;
 
 function toTsukiEvent({
   shiftState,
@@ -194,8 +195,10 @@ function handleKeyDown(event: KeyboardEvent) {
 
     shiftState = result.shiftState;
     if (result.event !== undefined) {
+      console.log(result.event);
       event.target?.dispatchEvent(
         new KeyboardEvent("keydown", {
+          key: result.event.key,
           keyCode: result.event.keyCode,
           bubbles: true,
           shiftKey: result.event.shift,
