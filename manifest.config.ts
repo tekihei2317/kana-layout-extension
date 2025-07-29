@@ -22,4 +22,5 @@ export default defineManifest({
       all_frames: true,
     },
   ],
+  permissions: ["storage"],
 });

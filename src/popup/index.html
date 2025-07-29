@@ -1,16 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>かな配列エミュレーター</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="app">
       <div class="header">
-        <div class="title">かな配列エミュレーター</div>
-        <div class="subtitle">月配列用</div>
-        <button id="counter" type="button"></button>
+        <h1 class="title">かな配列エミュレーター</h1>
+        <p class="subtitle">タイピングゲーム用</p>
+      </div>
+
+      <div class="settings">
+        <!-- ON/OFF切り替え -->
+        <div class="setting-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="enabled-toggle" />
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">機能を有効にする</span>
+          </label>
+        </div>
+
+        <!-- キーボード配列選択 -->
+        <div class="setting-group">
+          <h3 class="setting-title">キーボード配列</h3>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input
+                type="radio"
+                name="keyboard-layout"
+                value="JIS"
+                id="keyboard-jis"
+              />
+              <span class="radio-button"></span>
+              <span class="radio-text">JIS配列</span>
+            </label>
+            <label class="radio-label">
+              <input
+                type="radio"
+                name="keyboard-layout"
+                value="US"
+                id="keyboard-us"
+              />
+              <span class="radio-button"></span>
+              <span class="radio-text">US配列</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- かな配列選択 -->
+        <div class="setting-group">
+          <h3 class="setting-title">かな配列</h3>
+          <select id="kana-layout" class="select">
+            <option value="tsuki">月配列</option>
+            <!-- 将来の拡張用 -->
+            <!-- <option value="nicola">NICOLA配列</option> -->
+          </select>
+        </div>
       </div>
     </div>
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="./main.ts"></script>
   </body>
 </html>
