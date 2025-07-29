@@ -1,4 +1,4 @@
-import { tsukiLayout } from "../layouts/tsuki-2-263";
+import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
 import { Settings, defaultSettings } from "../settings";
 
 type State = {
@@ -20,7 +20,7 @@ let app: Application = {
 /**
  * キーボードイベントを処理する
  */
-function handleKeyDown(event: KeyboardEvent) {
+function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
   if (!event.isTrusted) return;
 
   if (tsukiLayout.isValidKey(event.key)) {
@@ -67,9 +67,10 @@ async function loadSettings(): Promise<Settings> {
  */
 function syncAppWithSettings(app: Application): Application {
   function createKeydownHandler(
-    _settings: Settings
+    settings: Settings
   ): (event: KeyboardEvent) => void {
-    return (event: KeyboardEvent) => handleKeyDown(event);
+    const layout = makeTsukiLayout(settings.keyboardLayout);
+    return (event: KeyboardEvent) => handleKeyDown(event, layout);
   }
 
   // 前の設定のイベントハンドラがあれば削除する
@@ -94,7 +95,8 @@ async function main() {
   const isEtypingIframe = window.location.href.includes("/jsa_kana/typing.asp");
 
   if (window.parent === window || isEtypingIframe) {
-    app = { ...app, settings: await loadSettings() };
+    const settings = await loadSettings();
+    app = { ...app, settings };
     app = syncAppWithSettings(app);
   }
 }
