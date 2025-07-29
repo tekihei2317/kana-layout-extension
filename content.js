@@ -62,7 +62,7 @@ const kanaToJisKana = {
   を: { keyCode: 48, shift: true }, // 0 + shift
   ほ: { keyCode: 189, shift: false }, // -
   へ: { keyCode: 187, shift: false }, // =
-  "-": { keyCode: 0, shift: false }, // ¥ TODO:
+  "-": { keyCode: 0, shift: false }, // ¥
 
   // Q行
   た: { keyCode: 81, shift: false }, // Q
@@ -168,6 +168,8 @@ function toTsukiEvent({ shiftState, key }) {
 }
 
 function handleKeyDown(event) {
+  if (!event.isTrusted) return;
+
   console.log(
     `Key: ${event.key}, isTrusted: ${event.isTrusted}, keyCode: ${event.keyCode}, which: ${event.which}`
   );

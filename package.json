@@ -1,0 +1,23 @@
+{
+  "name": "kana-layout-extension",
+  "version": "0.0.1",
+  "description": "タイピングゲームでかな入力配列を使うためのChrome拡張機能です",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tekihei2317/kana-layout-extension.git"
+  },
+  "keywords": [],
+  "author": "tekihei2317",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tekihei2317/kana-layout-extension/issues"
+  },
+  "homepage": "https://github.com/tekihei2317/kana-layout-extension#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.1.1",
+    "typescript": "^5.8.3"
+  }
+}
