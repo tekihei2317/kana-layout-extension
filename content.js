@@ -60,6 +60,9 @@ const kanaToJisKana = {
   ょ: { keyCode: 57, shift: true }, // 9 + shift
   わ: { keyCode: 48, shift: false }, // 0
   を: { keyCode: 48, shift: true }, // 0 + shift
+  ほ: { keyCode: 189, shift: false }, // -
+  へ: { keyCode: 187, shift: false }, // =
+  "-": { keyCode: 0, shift: false }, // ¥ TODO:
 
   // Q行
   た: { keyCode: 81, shift: false }, // Q
@@ -74,8 +77,8 @@ const kanaToJisKana = {
   ら: { keyCode: 79, shift: false }, // O
   せ: { keyCode: 80, shift: false }, // P
   "゛": { keyCode: 219, shift: false }, // [
-  "゜": { keyCode: 221, shift: false }, // ]
-  "[": { keyCode: 219, shift: true }, // [ + Shift
+  "゜": { keyCode: 219, shift: false }, // ]
+  "[": { keyCode: 219, shift: true }, // [ + shift
 
   // A行
   ち: { keyCode: 65, shift: false }, // A
@@ -88,11 +91,13 @@ const kanaToJisKana = {
   の: { keyCode: 75, shift: false }, // K
   り: { keyCode: 76, shift: false }, // L
   れ: { keyCode: 186, shift: false }, // ;
-  け: { keyCode: 222, shift: false }, // '
-  む: { keyCode: 221, shift: true },
+  け: { keyCode: 186, shift: false }, // :
+  む: { keyCode: 221, shift: false }, // ]
+  "]": { keyCode: 221, shift: true }, // ] + shift
 
   // Z行
   つ: { keyCode: 90, shift: false }, // Z
+  っ: { keyCode: 90, shift: true }, // Z + shift
   さ: { keyCode: 88, shift: false }, // X
   そ: { keyCode: 67, shift: false }, // C
   ひ: { keyCode: 86, shift: false }, // V
@@ -100,10 +105,12 @@ const kanaToJisKana = {
   み: { keyCode: 78, shift: false }, // N
   も: { keyCode: 77, shift: false }, // M
   ね: { keyCode: 188, shift: false }, // ,
-  ",": { keyCode: 188, shift: true }, // , + Shift
+  ",": { keyCode: 188, shift: true }, // , + shift
   る: { keyCode: 190, shift: false }, // .
-  ".": { keyCode: 190, shift: true }, // . + Shift
+  ".": { keyCode: 190, shift: true }, // . + shift
   め: { keyCode: 191, shift: false }, // /
+  "・": { keyCode: 191, shift: true }, // / + shift
+  ろ: { keyCode: 189, shift: false }, // _
 };
 
 /**
