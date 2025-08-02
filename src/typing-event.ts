@@ -31,8 +31,8 @@ const kanaToJisKanaMap = {
   わ: { key: "0", keyCode: 48, shift: false, code: "Digit0" },
   を: { key: "0", keyCode: 48, shift: true, code: "Digit0" },
   ほ: { key: "-", keyCode: 189, shift: false, code: "Minus" },
-  へ: { key: "^", keyCode: 187, shift: false, code: "Equal" },
-  "-": { key: "¥", keyCode: 0, shift: false, code: "IntlYen" },
+  へ: { key: "^", keyCode: 222, shift: false, code: "Equal" },
+  "-": { key: "¥", keyCode: 220, shift: false, code: "IntlYen" },
 
   た: { key: "q", keyCode: 81, shift: false, code: "KeyQ" },
   て: { key: "w", keyCode: 87, shift: false, code: "KeyW" },
@@ -45,7 +45,7 @@ const kanaToJisKanaMap = {
   に: { key: "i", keyCode: 73, shift: false, code: "KeyI" },
   ら: { key: "o", keyCode: 79, shift: false, code: "KeyO" },
   せ: { key: "p", keyCode: 80, shift: false, code: "KeyP" },
-  "゛": { key: "@", keyCode: 219, shift: false, code: "BracketLeft" },
+  "゛": { key: "@", keyCode: 192, shift: false, code: "BracketLeft" },
   "゜": { key: "[", keyCode: 219, shift: false, code: "BracketRight" },
   "[": { key: "{", keyCode: 219, shift: true, code: "BracketRight" },
 
@@ -58,7 +58,7 @@ const kanaToJisKanaMap = {
   ま: { key: "j", keyCode: 74, shift: false, code: "KeyJ" },
   の: { key: "k", keyCode: 75, shift: false, code: "KeyK" },
   り: { key: "l", keyCode: 76, shift: false, code: "KeyL" },
-  れ: { key: ";", keyCode: 186, shift: false, code: "Semicolon" },
+  れ: { key: ";", keyCode: 187, shift: false, code: "Semicolon" },
   け: { key: ":", keyCode: 186, shift: false, code: "Quote" },
   む: { key: "]", keyCode: 221, shift: false, code: "Backslash" },
   "]": { key: "}", keyCode: 221, shift: true, code: "Backslash" },
@@ -77,7 +77,7 @@ const kanaToJisKanaMap = {
   ".": { key: ">", keyCode: 190, shift: true, code: "Period" },
   め: { key: "/", keyCode: 191, shift: false, code: "Slash" },
   "・": { key: "?", keyCode: 191, shift: true, code: "Slash" },
-  ろ: { key: "_", keyCode: 189, shift: false, code: "IntlRo" },
+  ろ: { key: "_", keyCode: 226, shift: false, code: "IntlRo" },
 } satisfies Record<string, TypingEvent>;
 
 const validKanas = Object.keys(kanaToJisKanaMap);

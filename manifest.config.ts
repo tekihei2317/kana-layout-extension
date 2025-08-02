@@ -18,7 +18,12 @@ export default defineManifest({
   content_scripts: [
     {
       js: ["src/content/main.ts"],
-      matches: ["https://*/*"],
+      matches: [
+        "https://www.e-typing.ne.jp/*",
+        "https://typing-tube.net/*",
+        "https://ytyping.net/*",
+        "https://taisoku.com/*",
+      ],
       all_frames: true,
     },
   ],
