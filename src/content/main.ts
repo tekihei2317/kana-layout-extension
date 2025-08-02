@@ -1,7 +1,5 @@
-import { tsukiLayoutLayers } from "../keyguide";
 import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
 import { Settings, defaultSettings } from "../settings";
-import { waitForElement } from "../dom-utils";
 
 type State = {
   shift: "none" | "left" | "right";
@@ -68,19 +66,14 @@ async function loadSettings(): Promise<Settings> {
  * 設定をアプリケーションに同期する
  */
 function syncAppWithSettings(app: Application): Application {
-  function createKeydownHandler(
-    settings: Settings
-  ): (event: KeyboardEvent) => void {
-    const layout = makeTsukiLayout(settings.keyboardLayout);
-    return (event: KeyboardEvent) => handleKeyDown(event, layout);
-  }
-
   // 前の設定のイベントハンドラがあれば削除する
   app.cleanup();
 
   if (app.settings && app.settings.enabled) {
     // イベントハンドラを設定する
-    const handler = createKeydownHandler(app.settings);
+    const layout = makeTsukiLayout(app.settings.keyboardLayout);
+    const handler = (event: KeyboardEvent) => handleKeyDown(event, layout);
+
     window.addEventListener("keydown", handler, true);
     const cleanup = () => window.removeEventListener("keydown", handler, true);
 
@@ -95,28 +88,6 @@ function syncAppWithSettings(app: Application): Application {
  */
 async function main() {
   const isEtypingIframe = window.location.href.includes("/jsa_kana/typing.asp");
-
-  if (isEtypingIframe) {
-    await waitForElement("#start_btn");
-    const startButton = document.querySelector<HTMLButtonElement>("#start_btn");
-    if (startButton === null) return;
-
-    startButton.addEventListener("click", async () => {
-      console.log("button clicked");
-
-      await waitForElement("#kana_keyboard");
-
-      const existingKeyboard =
-        document.querySelector<HTMLDivElement>("#kana_keyboard");
-      if (existingKeyboard) {
-        existingKeyboard.remove();
-      }
-
-      const keyboardContainer =
-        document.querySelector<HTMLDivElement>("#vk_container");
-      keyboardContainer?.appendChild(tsukiLayoutLayers.rightShifted);
-    });
-  }
 
   if (window.parent === window || isEtypingIframe) {
     const settings = await loadSettings();

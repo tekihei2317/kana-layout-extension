@@ -74,10 +74,10 @@ const keyPositionMap = {
   "/": [2, 9],
 } satisfies Record<string, KeyPosition>;
 
-export type UpdateKeyGuide = (
-  state: State,
-  restCharacters: string
-) => { layerId: KeyboardLayerId; highlights: KeyPosition[] };
+export type UpdateKeyGuide = (args: {
+  state: State;
+  restCharacters: string;
+}) => { layerId: KeyboardLayerId; highlights: KeyPosition[] };
 
 /**
  * キーガイドのレイヤーIDを計算する
@@ -218,10 +218,13 @@ function getKeyGuideHightlights(
 /**
  * キーガイドを更新する
  */
-export function updateKeyGuide(
-  state: State,
-  restCharacters: string
-): { layerId: KeyboardLayerId; highlights: KeyPosition[] } {
+export function updateKeyGuide({
+  state,
+  restCharacters,
+}: {
+  state: State;
+  restCharacters: string;
+}): { layerId: KeyboardLayerId; highlights: KeyPosition[] } {
   const layerId = getKeyGuideLayerId(state);
   const highlights = getKeyGuideHightlights(state, restCharacters[0]);
 
