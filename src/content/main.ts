@@ -1,5 +1,7 @@
+import { tsukiLayoutLayers } from "../keyguide";
 import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
 import { Settings, defaultSettings } from "../settings";
+import { waitForElement } from "../dom-utils";
 
 type State = {
   shift: "none" | "left" | "right";
@@ -93,6 +95,28 @@ function syncAppWithSettings(app: Application): Application {
  */
 async function main() {
   const isEtypingIframe = window.location.href.includes("/jsa_kana/typing.asp");
+
+  if (isEtypingIframe) {
+    await waitForElement("#start_btn");
+    const startButton = document.querySelector<HTMLButtonElement>("#start_btn");
+    if (startButton === null) return;
+
+    startButton.addEventListener("click", async () => {
+      console.log("button clicked");
+
+      await waitForElement("#kana_keyboard");
+
+      const existingKeyboard =
+        document.querySelector<HTMLDivElement>("#kana_keyboard");
+      if (existingKeyboard) {
+        existingKeyboard.remove();
+      }
+
+      const keyboardContainer =
+        document.querySelector<HTMLDivElement>("#vk_container");
+      keyboardContainer?.appendChild(tsukiLayoutLayers.rightShifted);
+    });
+  }
 
   if (window.parent === window || isEtypingIframe) {
     const settings = await loadSettings();

@@ -1,5 +1,6 @@
 import { InputProcessor } from "../input-processor";
 import { convertKanaToEvent } from "../typing-event";
+import { updateKeyGuide, UpdateKeyGuide } from "./tsuki-2-263-keyguide";
 
 type KeyboardLayoutKind = "JIS" | "US";
 
@@ -64,6 +65,9 @@ type State = {
   shift: "none" | "left" | "right";
 };
 
+/**
+ * 配列の範囲内のキー入力かどうかを判定する
+ */
 function makeIsValidKey(layout: KeyboardLayoutKind) {
   const keymap = keymaps[layout];
 
@@ -72,6 +76,9 @@ function makeIsValidKey(layout: KeyboardLayoutKind) {
   };
 }
 
+/**
+ * キー入力を処理する
+ */
 function makeProcess(layout: KeyboardLayoutKind) {
   const keymap = keymaps[layout];
 
@@ -128,6 +135,7 @@ function makeProcess(layout: KeyboardLayoutKind) {
 export type TsukiLayout = {
   process: InputProcessor<State, string>;
   isValidKey: (key: string) => boolean;
+  updateKeyGuide: UpdateKeyGuide;
 };
 
 /**
@@ -142,5 +150,6 @@ export function makeTsukiLayout(
   return {
     process,
     isValidKey,
+    updateKeyGuide,
   };
 }
