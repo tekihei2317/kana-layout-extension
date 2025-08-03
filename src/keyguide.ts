@@ -1,4 +1,6 @@
-type KeyPosition =
+import { KeyPosition } from "./layouts/tsuki-2-263-keyguide";
+
+type EtypingKeyPosition =
   | "key_q"
   | "key_w"
   | "key_e"
@@ -66,7 +68,7 @@ type KeyPosition =
   | "key_17_right";
 
 type KeyData = {
-  position: KeyPosition;
+  position: EtypingKeyPosition;
   classes: string[];
 };
 
@@ -119,7 +121,7 @@ const keyboardData: KeyData[] = [
   { position: "key_189", classes: ["little", "right"] },
   { position: "key_222", classes: ["little", "right"] },
   { position: "key_220", classes: ["little", "right"] },
-  { position: "key_space", classes: ["active"] },
+  { position: "key_space", classes: [] },
   { position: "key_shift_right", classes: [] },
   { position: "key_shift_left", classes: [] },
 ];
@@ -141,7 +143,7 @@ const decorativeKeys = [
   "key_17_right",
 ];
 
-export type KeyLayout = Partial<Record<KeyPosition, string>>;
+export type KeyLayout = Partial<Record<EtypingKeyPosition, string>>;
 
 /**
  * キーボードを作成する
@@ -207,13 +209,93 @@ const normalLayout: KeyLayout = {
   key_space: "space",
 };
 
-// そこしてょ つんいのりち
-// はか☆とた くう★゛きれ
-// すけになさ っる、。゜・
+/**
+ * KeyPosition → EtypingKeyPosition の変換
+ */
+function keyPositionToEtyping(
+  position: KeyPosition
+): EtypingKeyPosition | undefined {
+  const [row, col] = position;
 
-// ぁひほふめ ぬえみやぇ「
-// ぃをらあよ まおもわゆ」
-// ぅへせゅゃ むろねーぉ
+  if (row === 0) {
+    switch (col) {
+      case 0:
+        return "key_q";
+      case 1:
+        return "key_w";
+      case 2:
+        return "key_e";
+      case 3:
+        return "key_r";
+      case 4:
+        return "key_t";
+      case 5:
+        return "key_y";
+      case 6:
+        return "key_u";
+      case 7:
+        return "key_i";
+      case 8:
+        return "key_o";
+      case 9:
+        return "key_p";
+      case 10:
+        return "key_192";
+    }
+  } else if (row === 1) {
+    switch (col) {
+      case 0:
+        return "key_a";
+      case 1:
+        return "key_s";
+      case 2:
+        return "key_d";
+      case 3:
+        return "key_f";
+      case 4:
+        return "key_g";
+      case 5:
+        return "key_h";
+      case 6:
+        return "key_j";
+      case 7:
+        return "key_k";
+      case 8:
+        return "key_l";
+      case 9:
+        return "key_187";
+      case 10:
+        return "key_186";
+    }
+  } else if (row === 2) {
+    switch (col) {
+      case 0:
+        return "key_z";
+      case 1:
+        return "key_x";
+      case 2:
+        return "key_c";
+      case 3:
+        return "key_v";
+      case 4:
+        return "key_b";
+      case 5:
+        return "key_n";
+      case 6:
+        return "key_m";
+      case 7:
+        return "key_comma";
+      case 8:
+        return "key_dot";
+      case 9:
+        return "key_191";
+      case 10:
+        return "key_226";
+    }
+  }
+
+  return undefined;
+}
 
 export const tsukiLayoutLayers = {
   normal: createKanaKeyboard(normalLayout),
@@ -257,3 +339,27 @@ export const tsukiLayoutLayers = {
     key_b: "ゃ",
   }),
 };
+
+/**
+ * ハイライトを適用する
+ */
+export function applyHighlights(
+  layerId: "normal" | "leftShifted" | "rightShifted",
+  highlights: KeyPosition[]
+): HTMLDivElement {
+  const keyboardElement = tsukiLayoutLayers[layerId].cloneNode(
+    true
+  ) as HTMLDivElement;
+
+  highlights.forEach((position) => {
+    const etypingKey = keyPositionToEtyping(position);
+    if (etypingKey) {
+      const keyElement = keyboardElement.querySelector(`.${etypingKey}`);
+      if (keyElement) {
+        keyElement.classList.add("active");
+      }
+    }
+  });
+
+  return keyboardElement;
+}

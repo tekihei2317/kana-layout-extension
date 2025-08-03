@@ -1,4 +1,6 @@
 import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
+import { updateKeyGuide } from "../layouts/tsuki-2-263-keyguide";
+import { applyHighlights } from "../keyguide";
 import { Settings, defaultSettings } from "../settings";
 
 type State = {
@@ -41,6 +43,32 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
           bubbles: true,
         })
       );
+    }
+
+    const keyboardContainer = document.getElementById("vk_container");
+    const sentence = document.getElementById("sentenceText");
+
+    // キーガイドを更新する
+    if (keyboardContainer) {
+      keyboardContainer.children[0].remove();
+
+      let restCharacters = "";
+      if (sentence) {
+        const restElement = sentence.querySelector("span:not(.entered)");
+
+        if (restElement) restCharacters = restElement.textContent ?? "";
+        else {
+          // 最後の文字を打ったあとはsentenceTextが空のdivになるので、restElementはnullになる
+          restCharacters = "";
+        }
+      }
+
+      const { layerId, highlights } = updateKeyGuide({
+        state: app.state,
+        restCharacters,
+      });
+      const keyboard = applyHighlights(layerId, highlights);
+      keyboardContainer.appendChild(keyboard);
     }
   }
 }

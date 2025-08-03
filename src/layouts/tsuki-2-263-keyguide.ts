@@ -4,7 +4,7 @@ type State = {
 
 type KeyboardLayerId = "normal" | "leftShifted" | "rightShifted";
 
-type KeyPosition =
+export type KeyPosition =
   | [0, 0]
   | [0, 1]
   | [0, 2]
