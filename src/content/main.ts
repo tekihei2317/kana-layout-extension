@@ -114,6 +114,78 @@ function syncAppWithSettings(app: Application): Application {
 let keyguideInitialized = false;
 
 /**
+ * キーボードが表示されたとき、キーガイドを置き換える
+ */
+const keyboardDisplayObserver = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (!(mutation.target instanceof Element)) return;
+
+    // #vk_containerに#kana_keyboardが追加され、その後#kana_keyboardにキーが一つずつ追加される
+    // #vk_containerに作成したキーガイドを追加すれば動いた
+    if (mutation.target.id === "vk_container") {
+      const container = mutation.target;
+
+      if (!keyguideInitialized) {
+        keyguideInitialized = true;
+
+        container.children[0].remove();
+        const { layerId } = updateKeyGuide({
+          state: app.state,
+          restCharacters: "",
+        });
+
+        const keyboard = applyHighlights(layerId, ["space"]);
+        container.appendChild(keyboard);
+      }
+    }
+  });
+});
+
+const rootObserver = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      if (node instanceof Element && node.id === "example_container") {
+        console.log("example_container found");
+        wordDisplayObserver.observe(node, {
+          childList: true,
+          subtree: true,
+        });
+      }
+    }
+  }
+});
+
+// ワードが表示されたときに、次のキーをハイライトする
+const wordDisplayObserver = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      // console.log("added", node);
+      const isEtypingWord =
+        node instanceof Element &&
+        node.tagName === "SPAN" &&
+        !node.classList.contains("entered") &&
+        node.textContent?.trim() !== "";
+
+      if (isEtypingWord) {
+        const word = node.textContent!.trim();
+
+        // キーガイドを更新する
+        const container = document.getElementById("vk_container");
+        if (container) {
+          const { layerId, highlights } = updateKeyGuide({
+            state: app.state,
+            restCharacters: word,
+          });
+          const keyboard = applyHighlights(layerId, highlights);
+          container.children[0].remove();
+          container.appendChild(keyboard);
+        }
+      }
+    }
+  }
+});
+
+/**
  * メインページまたはe-typingのプレイ画面のiframeの場合にのみ、拡張機能を有効化する
  */
 async function main() {
@@ -128,32 +200,14 @@ async function main() {
       const etypingApp = document.getElementById("app");
       if (!etypingApp) return;
 
-      const observer = new MutationObserver((mutations) => {
-        // キーボードが表示されたとき、置き換える
-        mutations.forEach((mutation) => {
-          if (!(mutation.target instanceof Element)) return;
-
-          // #vk_containerに#kana_keyboardが追加され、その後#kana_keyboardにキーが一つずつ追加される
-          if (mutation.target.id === "vk_container") {
-            const container = mutation.target;
-
-            if (!keyguideInitialized) {
-              keyguideInitialized = true;
-
-              container.children[0].remove();
-              const { layerId } = updateKeyGuide({
-                state: app.state,
-                restCharacters: "",
-              });
-
-              const keyboard = applyHighlights(layerId, ["space"]);
-              container.appendChild(keyboard);
-              console.log("appended");
-            }
-          }
-        });
+      keyboardDisplayObserver.observe(etypingApp, {
+        subtree: true,
+        childList: true,
       });
-      observer.observe(etypingApp, { subtree: true, childList: true });
+      rootObserver.observe(etypingApp, {
+        subtree: true,
+        childList: true,
+      });
     }
   }
 }
