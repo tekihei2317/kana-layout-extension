@@ -37,7 +37,8 @@ export type KeyPosition =
   | [2, 7]
   | [2, 8]
   | [2, 9]
-  | [2, 10];
+  | [2, 10]
+  | "space";
 
 const keyPositionMap = {
   q: [0, 0],

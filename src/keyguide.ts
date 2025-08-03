@@ -215,6 +215,10 @@ const normalLayout: KeyLayout = {
 function keyPositionToEtyping(
   position: KeyPosition
 ): EtypingKeyPosition | undefined {
+  if (position === "space") {
+    return "key_space";
+  }
+
   const [row, col] = position;
 
   if (row === 0) {

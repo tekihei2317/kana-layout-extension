@@ -111,6 +111,8 @@ function syncAppWithSettings(app: Application): Application {
   return app;
 }
 
+let keyguideInitialized = false;
+
 /**
  * メインページまたはe-typingのプレイ画面のiframeの場合にのみ、拡張機能を有効化する
  */
@@ -121,6 +123,38 @@ async function main() {
     const settings = await loadSettings();
     app = { ...app, settings };
     app = syncAppWithSettings(app);
+
+    if (isEtypingIframe) {
+      const etypingApp = document.getElementById("app");
+      if (!etypingApp) return;
+
+      const observer = new MutationObserver((mutations) => {
+        // キーボードが表示されたとき、置き換える
+        mutations.forEach((mutation) => {
+          if (!(mutation.target instanceof Element)) return;
+
+          // #vk_containerに#kana_keyboardが追加され、その後#kana_keyboardにキーが一つずつ追加される
+          if (mutation.target.id === "vk_container") {
+            const container = mutation.target;
+
+            if (!keyguideInitialized) {
+              keyguideInitialized = true;
+
+              container.children[0].remove();
+              const { layerId } = updateKeyGuide({
+                state: app.state,
+                restCharacters: "",
+              });
+
+              const keyboard = applyHighlights(layerId, ["space"]);
+              container.appendChild(keyboard);
+              console.log("appended");
+            }
+          }
+        });
+      });
+      observer.observe(etypingApp, { subtree: true, childList: true });
+    }
   }
 }
 
