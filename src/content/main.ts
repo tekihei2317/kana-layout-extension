@@ -1,6 +1,6 @@
 import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
 import { updateKeyGuide } from "../layouts/tsuki-2-263-keyguide";
-import { applyHighlights } from "../keyguide";
+import { applyHighlights, tsukiLayoutLayers } from "../keyguide";
 import { Settings, defaultSettings } from "../settings";
 
 type State = {
@@ -25,6 +25,28 @@ let app: Application = {
 function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
   if (!event.isTrusted) return;
 
+  // スペースを押した時にハイライトを削除する
+  // とりあえず、スペースを押した時にspaceにハイライトが付いてたら消すことにする
+  if (event.key === " ") {
+    const keyboardContainer = document.getElementById("vk_container");
+
+    if (
+      keyboardContainer &&
+      keyboardContainer.querySelector("div.key_space.active")
+    ) {
+      console.log("active space found");
+      keyboardContainer.children[0].remove();
+
+      const { layerId } = updateKeyGuide({
+        state: app.state,
+        restCharacters: "",
+      });
+      keyboardContainer.appendChild(tsukiLayoutLayers[layerId]);
+    }
+    return;
+  }
+
+  // キー入力の変換処理
   if (tsukiLayout.isValidKey(event.key)) {
     event.preventDefault();
     event.stopPropagation();
@@ -56,8 +78,9 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
       if (sentence) {
         const restElement = sentence.querySelector("span:not(.entered)");
 
-        if (restElement) restCharacters = restElement.textContent ?? "";
-        else {
+        if (restElement) {
+          restCharacters = restElement.textContent ?? "";
+        } else {
           // 最後の文字を打ったあとはsentenceTextが空のdivになるので、restElementはnullになる
           restCharacters = "";
         }
@@ -111,45 +134,32 @@ function syncAppWithSettings(app: Application): Application {
   return app;
 }
 
-let keyguideInitialized = false;
+// e-typingのプレイ画面を監視する
+const rootObserver = new MutationObserver((mutations) => {
+  for (const mutation of mutations) {
+    for (const node of mutation.addedNodes) {
+      // ワードの表示の検知のため、example_containerを監視する
+      if (node instanceof Element && node.id === "example_container") {
+        wordDisplayObserver.observe(node, {
+          childList: true,
+          subtree: true,
+        });
+      }
 
-/**
- * キーボードが表示されたとき、キーガイドを置き換える
- */
-const keyboardDisplayObserver = new MutationObserver((mutations) => {
-  mutations.forEach((mutation) => {
-    if (!(mutation.target instanceof Element)) return;
-
-    // #vk_containerに#kana_keyboardが追加され、その後#kana_keyboardにキーが一つずつ追加される
-    // #vk_containerに作成したキーガイドを追加すれば動いた
-    if (mutation.target.id === "vk_container") {
-      const container = mutation.target;
-
-      if (!keyguideInitialized) {
-        keyguideInitialized = true;
+      // キーボードが表示されたとき、置き換える
+      if (node instanceof Element && node.id === "virtual_keyboard") {
+        const container = node.querySelector("#vk_container");
+        if (!container) {
+          throw new Error("#vk_containerが見つかりませんでした");
+        }
 
         container.children[0].remove();
         const { layerId } = updateKeyGuide({
           state: app.state,
           restCharacters: "",
         });
-
         const keyboard = applyHighlights(layerId, ["space"]);
         container.appendChild(keyboard);
-      }
-    }
-  });
-});
-
-const rootObserver = new MutationObserver((mutations) => {
-  for (const mutation of mutations) {
-    for (const node of mutation.addedNodes) {
-      if (node instanceof Element && node.id === "example_container") {
-        console.log("example_container found");
-        wordDisplayObserver.observe(node, {
-          childList: true,
-          subtree: true,
-        });
       }
     }
   }
@@ -159,7 +169,6 @@ const rootObserver = new MutationObserver((mutations) => {
 const wordDisplayObserver = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     for (const node of mutation.addedNodes) {
-      // console.log("added", node);
       const isEtypingWord =
         node instanceof Element &&
         node.tagName === "SPAN" &&
@@ -200,10 +209,6 @@ async function main() {
       const etypingApp = document.getElementById("app");
       if (!etypingApp) return;
 
-      keyboardDisplayObserver.observe(etypingApp, {
-        subtree: true,
-        childList: true,
-      });
       rootObserver.observe(etypingApp, {
         subtree: true,
         childList: true,
