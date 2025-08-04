@@ -216,6 +216,49 @@ function getKeyGuideHightlights(
   }
 }
 
+export type Finger =
+  | "left_little"
+  | "left_ring"
+  | "left_middle"
+  | "left_index"
+  | "left_thumb"
+  | "right_thumb"
+  | "right_index"
+  | "right_middle"
+  | "right_ring"
+  | "right_little";
+
+function positionToFinger(position: KeyPosition): Finger {
+  if (position === "space") return "right_thumb";
+
+  const [_, column] = position;
+
+  switch (column) {
+    case 0:
+      return "left_little";
+    case 1:
+      return "left_ring";
+    case 2:
+      return "left_middle";
+    case 3:
+      return "left_index";
+    case 4:
+      return "left_index";
+    case 5:
+      return "right_index";
+    case 6:
+      return "right_index";
+    case 7:
+      return "right_middle";
+    case 8:
+      return "right_ring";
+    case 9:
+      return "right_little";
+    case 10:
+      return "right_little";
+  }
+}
+
 /**
  * キーガイドを更新する
  */
@@ -225,9 +268,10 @@ export function updateKeyGuide({
 }: {
   state: State;
   restCharacters: string;
-}): { layerId: KeyboardLayerId; highlights: KeyPosition[] } {
+}): { layerId: KeyboardLayerId; highlights: KeyPosition[]; fingers: Finger[] } {
   const layerId = getKeyGuideLayerId(state);
-  const highlights = getKeyGuideHightlights(state, restCharacters[0]);
+  const positions = getKeyGuideHightlights(state, restCharacters[0]);
+  const fingers = positions.map((position) => positionToFinger(position));
 
-  return { layerId, highlights };
+  return { layerId, highlights: positions, fingers };
 }

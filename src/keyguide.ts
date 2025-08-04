@@ -1,4 +1,4 @@
-import { KeyPosition } from "./layouts/tsuki-2-263-keyguide";
+import { Finger, KeyPosition } from "./layouts/tsuki-2-263-keyguide";
 
 type EtypingKeyPosition =
   | "key_q"
@@ -170,6 +170,50 @@ export function createKanaKeyboard(keyLayout: KeyLayout): HTMLDivElement {
   });
 
   return container;
+}
+
+/**
+ * 指のガイドを作成する
+ */
+export function createHandsChildren(
+  fingerHighlights: Finger[]
+): HTMLDivElement[] {
+  const fingers: { finger: Finger; classes: string[] }[] = [
+    { finger: "left_little", classes: ["finger", "little", "left"] },
+    { finger: "left_ring", classes: ["finger", "ring", "left"] },
+    { finger: "left_middle", classes: ["finger", "middle", "left"] },
+    { finger: "left_index", classes: ["finger", "index", "left"] },
+    { finger: "left_thumb", classes: ["finger", "thumb", "left"] },
+    { finger: "right_thumb", classes: ["finger", "thumb", "right"] },
+    { finger: "right_index", classes: ["finger", "index", "right"] },
+    { finger: "right_middle", classes: ["finger", "middle", "right"] },
+    { finger: "right_ring", classes: ["finger", "ring", "right"] },
+    { finger: "right_little", classes: ["finger", "little", "right"] },
+  ];
+
+  return fingers.map(({ finger, classes }) => {
+    const fingerElement = document.createElement("div");
+    fingerElement.className = classes.join(" ");
+
+    if (fingerHighlights.includes(finger)) {
+      fingerElement.classList.add("on");
+    }
+
+    return fingerElement;
+  });
+}
+
+/**
+ * 既存のhands要素の子要素を更新する
+ */
+export function updateHandsHighlights(
+  handsElement: HTMLElement,
+  fingerHighlights: Finger[]
+): void {
+  handsElement.innerHTML = "";
+
+  const newChildren = createHandsChildren(fingerHighlights);
+  newChildren.forEach((child) => handsElement.appendChild(child));
 }
 
 const normalLayout: KeyLayout = {

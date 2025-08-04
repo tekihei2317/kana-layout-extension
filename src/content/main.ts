@@ -1,6 +1,10 @@
 import { makeTsukiLayout, type TsukiLayout } from "../layouts/tsuki-2-263";
 import { updateKeyGuide } from "../layouts/tsuki-2-263-keyguide";
-import { applyHighlights, tsukiLayoutLayers } from "../keyguide";
+import {
+  applyHighlights,
+  updateHandsHighlights,
+  tsukiLayoutLayers,
+} from "../keyguide";
 import { Settings, defaultSettings } from "../settings";
 
 type State = {
@@ -69,6 +73,7 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
 
     const keyboardContainer = document.getElementById("vk_container");
     const sentence = document.getElementById("sentenceText");
+    const hands = document.getElementById("hands");
 
     // キーガイドを更新する
     if (keyboardContainer) {
@@ -86,12 +91,17 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
         }
       }
 
-      const { layerId, highlights } = updateKeyGuide({
+      const { layerId, highlights, fingers } = updateKeyGuide({
         state: app.state,
         restCharacters,
       });
       const keyboard = applyHighlights(layerId, highlights);
       keyboardContainer.appendChild(keyboard);
+
+      // 指のハイライトを更新する
+      if (hands) {
+        updateHandsHighlights(hands, fingers);
+      }
     }
   }
 }
@@ -181,13 +191,19 @@ const wordDisplayObserver = new MutationObserver((mutations) => {
         // キーガイドを更新する
         const container = document.getElementById("vk_container");
         if (container) {
-          const { layerId, highlights } = updateKeyGuide({
+          const { layerId, highlights, fingers } = updateKeyGuide({
             state: app.state,
             restCharacters: word,
           });
+
           const keyboard = applyHighlights(layerId, highlights);
           container.children[0].remove();
           container.appendChild(keyboard);
+
+          const hands = document.getElementById("hands");
+          if (hands) {
+            updateHandsHighlights(hands, fingers);
+          }
         }
       }
     }
