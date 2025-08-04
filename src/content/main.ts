@@ -38,7 +38,6 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
       keyboardContainer &&
       keyboardContainer.querySelector("div.key_space.active")
     ) {
-      console.log("active space found");
       keyboardContainer.children[0].remove();
 
       const { layerId } = updateKeyGuide({
@@ -134,9 +133,27 @@ function syncAppWithSettings(app: Application): Application {
     // イベントハンドラを設定する
     const layout = makeTsukiLayout(app.settings.keyboardLayout);
     const handler = (event: KeyboardEvent) => handleKeyDown(event, layout);
-
     window.addEventListener("keydown", handler, true);
-    const cleanup = () => window.removeEventListener("keydown", handler, true);
+
+    // e-typingのフレームを監視する
+    const isEtypingIframe = window.location.href.includes(
+      "/jsa_kana/typing.asp"
+    );
+    if (isEtypingIframe) {
+      const etypingApp = document.getElementById("app");
+      if (etypingApp) {
+        rootObserver.observe(etypingApp, {
+          subtree: true,
+          childList: true,
+        });
+      }
+    }
+
+    const cleanup = () => {
+      window.removeEventListener("keydown", handler, true);
+      rootObserver.disconnect();
+      wordDisplayObserver.disconnect();
+    };
 
     return { ...app, cleanup };
   }
@@ -220,16 +237,6 @@ async function main() {
     const settings = await loadSettings();
     app = { ...app, settings };
     app = syncAppWithSettings(app);
-
-    if (isEtypingIframe) {
-      const etypingApp = document.getElementById("app");
-      if (!etypingApp) return;
-
-      rootObserver.observe(etypingApp, {
-        subtree: true,
-        childList: true,
-      });
-    }
   }
 }
 
