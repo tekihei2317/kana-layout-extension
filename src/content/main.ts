@@ -109,17 +109,16 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
  * ストレージから設定を読み込む
  */
 async function loadSettings(): Promise<Settings> {
-  const result = await chrome.storage.sync.get([
-    "enabled",
-    "keyboardLayout",
-    "kanaLayout",
-  ]);
-  const settings: Settings = {
-    enabled: result.enabled ?? defaultSettings.enabled,
-    keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
-    kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
-  };
-  return settings;
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(null, (result) => {
+      const settings: Settings = {
+        enabled: result.enabled ?? defaultSettings.enabled,
+        keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
+        kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
+      };
+      resolve(settings);
+    });
+  });
 }
 
 /**
