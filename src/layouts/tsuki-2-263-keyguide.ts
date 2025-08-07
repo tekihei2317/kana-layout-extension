@@ -78,7 +78,10 @@ const keyPositionMap = {
 export type UpdateKeyGuide = (args: {
   state: State;
   restCharacters: string;
-}) => { layerId: KeyboardLayerId; highlights: KeyPosition[] };
+}) => {
+  layerId: KeyboardLayerId;
+  highlights: KeyPosition[];
+};
 
 /**
  * キーガイドのレイヤーIDを計算する
