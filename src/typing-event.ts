@@ -91,9 +91,13 @@ function isValidKana(kana: string): kana is ValidKana {
 /**
  * かなを出力するためのイベントに変換する
  */
-export function convertKanaToEvent(kana: string): TypingEvent {
+export function convertKanaToEvent(
+  kana: string | undefined,
+): TypingEvent | undefined {
+  if (kana === undefined) return undefined;
+
   if (!isValidKana(kana)) {
-    throw new Error(`${kana}に対応していません`);
+    throw new Error(`"${kana}"に対応していません`);
   }
 
   return kanaToJisKanaMap[kana];
