@@ -66,7 +66,7 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
           keyCode: result.event.keyCode,
           shiftKey: result.event.shift,
           bubbles: true,
-        })
+        }),
       );
     }
 
@@ -113,7 +113,6 @@ async function loadSettings(): Promise<Settings> {
     chrome.storage.sync.get(null, (result) => {
       const settings: Settings = {
         enabled: result.enabled ?? defaultSettings.enabled,
-        keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
         kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
       };
       resolve(settings);
@@ -136,7 +135,7 @@ function syncAppWithSettings(app: Application): Application {
 
     // e-typingのフレームを監視する
     const isEtypingIframe = window.location.href.includes(
-      "/jsa_kana/typing.asp"
+      "/jsa_kana/typing.asp",
     );
     if (isEtypingIframe) {
       const etypingApp = document.getElementById("app");
@@ -247,10 +246,6 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     if (!app.settings) return;
     if (changes.enabled) {
       app.settings.enabled = changes.enabled.newValue;
-    }
-
-    if (changes.keyboardLayout) {
-      app.settings.keyboardLayout = changes.keyboardLayout.newValue;
     }
 
     if (changes.kanaLayout) {

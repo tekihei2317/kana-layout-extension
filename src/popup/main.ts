@@ -2,36 +2,22 @@ import "./style.css";
 import { Settings, defaultSettings } from "../settings";
 
 const enabledToggle = document.getElementById(
-  "enabled-toggle"
-) as HTMLInputElement;
-const keyboardJisRadio = document.getElementById(
-  "keyboard-jis"
-) as HTMLInputElement;
-const keyboardUsRadio = document.getElementById(
-  "keyboard-us"
+  "enabled-toggle",
 ) as HTMLInputElement;
 const kanaLayoutSelect = document.getElementById(
-  "kana-layout"
+  "kana-layout",
 ) as HTMLSelectElement;
 
 function loadSettings() {
-  chrome.storage.sync.get(
-    ["enabled", "keyboardLayout", "kanaLayout"],
-    (result) => {
-      const settings: Settings = {
-        enabled: result.enabled ?? defaultSettings.enabled,
-        keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
-        kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
-      };
+  chrome.storage.sync.get(["enabled", "kanaLayout"], (result) => {
+    const settings: Settings = {
+      enabled: result.enabled ?? defaultSettings.enabled,
+      kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
+    };
 
-      enabledToggle.checked = settings.enabled;
-      (settings.keyboardLayout === "JIS"
-        ? keyboardJisRadio
-        : keyboardUsRadio
-      ).checked = true;
-      kanaLayoutSelect.value = settings.kanaLayout;
-    }
-  );
+    enabledToggle.checked = settings.enabled;
+    kanaLayoutSelect.value = settings.kanaLayout;
+  });
 }
 
 function saveSetting(key: keyof Settings, value: Settings[keyof Settings]) {
@@ -40,18 +26,6 @@ function saveSetting(key: keyof Settings, value: Settings[keyof Settings]) {
 
 enabledToggle.addEventListener("change", () => {
   saveSetting("enabled", enabledToggle.checked);
-});
-
-keyboardJisRadio.addEventListener("change", () => {
-  if (keyboardJisRadio.checked) {
-    saveSetting("keyboardLayout", "JIS");
-  }
-});
-
-keyboardUsRadio.addEventListener("change", () => {
-  if (keyboardUsRadio.checked) {
-    saveSetting("keyboardLayout", "US");
-  }
 });
 
 kanaLayoutSelect.addEventListener("change", () => {

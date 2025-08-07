@@ -178,7 +178,7 @@ const keyInfo = {
  */
 function getKeyGuideHightlights(
   state: State,
-  nextCharacter: string | undefined
+  nextCharacter: string | undefined,
 ): KeyPosition[] {
   if (nextCharacter === undefined) return [];
   if (!(nextCharacter in keyInfo)) return [];

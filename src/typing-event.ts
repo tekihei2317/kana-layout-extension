@@ -92,7 +92,7 @@ function isValidKana(kana: string): kana is ValidKana {
  * かなを出力するためのイベントに変換する
  */
 export function convertKanaToEvent(
-  kana: string | undefined
+  kana: string | undefined,
 ): TypingEvent | undefined {
   if (kana === undefined) return undefined;
 
