@@ -2,7 +2,11 @@ import { InputProcessor } from "../input-processor";
 import { convertKanaToEvent } from "../typing-event";
 import { updateKeyGuide, UpdateKeyGuide } from "./tsuki-2-263-keyguide";
 
-type KeymapEntry = { default: string; shift: string; side: "left" | "right" };
+type KeymapEntry = {
+  default: string;
+  shift: string | undefined;
+  side: "left" | "right";
+};
 
 type Keymap = Record<string, KeymapEntry>;
 
@@ -41,7 +45,7 @@ const keymap = {
   Comma: { default: ",", shift: "ね", side: "right" },
   Period: { default: ".", shift: "-", side: "right" },
   Slash: { default: "゜", shift: "ぉ", side: "right" },
-  IntlRo: { default: "・", shift: "", side: "right" },
+  IntlRo: { default: "・", shift: undefined, side: "right" },
 } satisfies Keymap;
 
 type State = {
