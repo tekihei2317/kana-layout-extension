@@ -120,6 +120,8 @@ const keyInfo = {
   た: { position: [1, 4], side: "left", shift: false },
   く: { position: [1, 5], side: "right", shift: false },
   う: { position: [1, 6], side: "right", shift: false },
+  // https://github.com/tekihei2317/kana-layout-extension/issues/10
+  ウ: { position: [1, 6], side: "right", shift: false },
   // "★": { position: [1, 7], side: "right", shift: false },
   "゛": { position: [1, 8], side: "right", shift: false },
   き: { position: [1, 9], side: "right", shift: false },
