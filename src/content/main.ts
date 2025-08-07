@@ -50,12 +50,12 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
   }
 
   // キー入力の変換処理
-  if (tsukiLayout.isValidKey(event.key)) {
+  if (tsukiLayout.isValidKey(event.code)) {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
 
-    const result = tsukiLayout.process({ state: app.state, key: event.key });
+    const result = tsukiLayout.process({ state: app.state, key: event.code });
     app.state = result.state;
 
     if (result.event !== undefined) {
@@ -130,7 +130,7 @@ function syncAppWithSettings(app: Application): Application {
 
   if (app.settings && app.settings.enabled) {
     // イベントハンドラを設定する
-    const layout = makeTsukiLayout(app.settings.keyboardLayout);
+    const layout = makeTsukiLayout();
     const handler = (event: KeyboardEvent) => handleKeyDown(event, layout);
     window.addEventListener("keydown", handler, true);
 

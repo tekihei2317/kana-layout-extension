@@ -93,7 +93,7 @@ function isValidKana(kana: string): kana is ValidKana {
  */
 export function convertKanaToEvent(kana: string): TypingEvent {
   if (!isValidKana(kana)) {
-    throw new Error(`${kana}に対応していません`);
+    throw new Error(`"${kana}"に対応していません`);
   }
 
   return kanaToJisKanaMap[kana];
