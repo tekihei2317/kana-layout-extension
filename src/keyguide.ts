@@ -176,7 +176,7 @@ export function createKanaKeyboard(keyLayout: KeyLayout): HTMLDivElement {
  * 指のガイドを作成する
  */
 export function createHandsChildren(
-  fingerHighlights: Finger[]
+  fingerHighlights: Finger[],
 ): HTMLDivElement[] {
   const fingers: { finger: Finger; classes: string[] }[] = [
     { finger: "left_little", classes: ["finger", "little", "left"] },
@@ -208,7 +208,7 @@ export function createHandsChildren(
  */
 export function updateHandsHighlights(
   handsElement: HTMLElement,
-  fingerHighlights: Finger[]
+  fingerHighlights: Finger[],
 ): void {
   handsElement.innerHTML = "";
 
@@ -257,7 +257,7 @@ const normalLayout: KeyLayout = {
  * KeyPosition → EtypingKeyPosition の変換
  */
 function keyPositionToEtyping(
-  position: KeyPosition
+  position: KeyPosition,
 ): EtypingKeyPosition | undefined {
   if (position === "space") {
     return "key_space";
@@ -393,10 +393,10 @@ export const tsukiLayoutLayers = {
  */
 export function applyHighlights(
   layerId: "normal" | "leftShifted" | "rightShifted",
-  highlights: KeyPosition[]
+  highlights: KeyPosition[],
 ): HTMLDivElement {
   const keyboardElement = tsukiLayoutLayers[layerId].cloneNode(
-    true
+    true,
   ) as HTMLDivElement;
 
   highlights.forEach((position) => {

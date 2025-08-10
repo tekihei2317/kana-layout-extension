@@ -50,12 +50,12 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
   }
 
   // キー入力の変換処理
-  if (tsukiLayout.isValidKey(event.key)) {
+  if (tsukiLayout.isValidKey(event.code)) {
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
 
-    const result = tsukiLayout.process({ state: app.state, key: event.key });
+    const result = tsukiLayout.process({ state: app.state, key: event.code });
     app.state = result.state;
 
     if (result.event !== undefined) {
@@ -66,7 +66,7 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
           keyCode: result.event.keyCode,
           shiftKey: result.event.shift,
           bubbles: true,
-        })
+        }),
       );
     }
 
@@ -109,17 +109,15 @@ function handleKeyDown(event: KeyboardEvent, tsukiLayout: TsukiLayout) {
  * ストレージから設定を読み込む
  */
 async function loadSettings(): Promise<Settings> {
-  const result = await chrome.storage.sync.get([
-    "enabled",
-    "keyboardLayout",
-    "kanaLayout",
-  ]);
-  const settings: Settings = {
-    enabled: result.enabled ?? defaultSettings.enabled,
-    keyboardLayout: result.keyboardLayout ?? defaultSettings.keyboardLayout,
-    kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
-  };
-  return settings;
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(null, (result) => {
+      const settings: Settings = {
+        enabled: result.enabled ?? defaultSettings.enabled,
+        kanaLayout: result.kanaLayout ?? defaultSettings.kanaLayout,
+      };
+      resolve(settings);
+    });
+  });
 }
 
 /**
@@ -131,13 +129,13 @@ function syncAppWithSettings(app: Application): Application {
 
   if (app.settings && app.settings.enabled) {
     // イベントハンドラを設定する
-    const layout = makeTsukiLayout(app.settings.keyboardLayout);
+    const layout = makeTsukiLayout();
     const handler = (event: KeyboardEvent) => handleKeyDown(event, layout);
     window.addEventListener("keydown", handler, true);
 
     // e-typingのフレームを監視する
     const isEtypingIframe = window.location.href.includes(
-      "/jsa_kana/typing.asp"
+      "/jsa_kana/typing.asp",
     );
     if (isEtypingIframe) {
       const etypingApp = document.getElementById("app");
@@ -248,10 +246,6 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
     if (!app.settings) return;
     if (changes.enabled) {
       app.settings.enabled = changes.enabled.newValue;
-    }
-
-    if (changes.keyboardLayout) {
-      app.settings.keyboardLayout = changes.keyboardLayout.newValue;
     }
 
     if (changes.kanaLayout) {
