@@ -10,7 +10,7 @@
 
 以下のページからインストールできます。
 
-https://chromewebstore.google.com/detail/kana-layout-extension/ojfbppdppiaflmgfpjjkfggdobdpgifp
+<https://chromewebstore.google.com/detail/kana-layout-extension/ojfbppdppiaflmgfpjjkfggdobdpgifp>
 
 インストール後、アイコンをクリックするとポップアップが表示されます。ポップアップでは、機能の有効/無効の切り替えと、配列の選択ができます。
 
@@ -43,5 +43,5 @@ e-typingでは使用している配列のキーガイドを確認することが
 
 不具合や要望等あれば、GitHubのIssueまたは、Twitterで教えてください。
 
-- GitHub Issue: https://github.com/tekihei2317/kana-layout-extension/issues
-- Twitter: https://x.com/tekihei2317_
+- GitHub Issue: <https://github.com/tekihei2317/kana-layout-extension/issues>
+- Twitter: <https://x.com/tekihei2317_>
